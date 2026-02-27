@@ -12,10 +12,6 @@ public extension MortarView {
         .init(item: safeAreaLayoutGuide)
     }
 
-    var keyboardLayout: MortarAnchorProvider {
-        .init(item: keyboardLayoutGuide)
-    }
-
     var parentLayout: MortarAnchorProvider {
         .init(item: MortarRelativeAnchor.parent(self) { $0 })
     }
@@ -24,20 +20,12 @@ public extension MortarView {
         .init(item: MortarRelativeAnchor.parent(self) { $0.safeAreaLayoutGuide })
     }
 
-    var parentKeyboardLayout: MortarAnchorProvider {
-        .init(item: MortarRelativeAnchor.parent(self) { $0.keyboardLayoutGuide })
-    }
-
     func referencedLayout(_ referenceId: String) -> MortarAnchorProvider {
         .init(item: MortarRelativeAnchor.reference(referenceId) { $0 })
     }
 
     func referencedSafeAreaLayout(_ referenceId: String) -> MortarAnchorProvider {
         .init(item: MortarRelativeAnchor.reference(referenceId) { $0.safeAreaLayoutGuide })
-    }
-
-    func referencedLeyboardLayout(_ referenceId: String) -> MortarAnchorProvider {
-        .init(item: MortarRelativeAnchor.reference(referenceId) { $0.keyboardLayoutGuide })
     }
 
     var layoutReferenceId: String? {
@@ -49,3 +37,21 @@ public extension MortarView {
         }
     }
 }
+
+#if os(iOS) || os(tvOS)
+
+public extension MortarView {
+    var keyboardLayout: MortarAnchorProvider {
+        .init(item: keyboardLayoutGuide)
+    }
+
+    var parentKeyboardLayout: MortarAnchorProvider {
+        .init(item: MortarRelativeAnchor.parent(self) { $0.keyboardLayoutGuide })
+    }
+
+    func referencedLeyboardLayout(_ referenceId: String) -> MortarAnchorProvider {
+        .init(item: MortarRelativeAnchor.reference(referenceId) { $0.keyboardLayoutGuide })
+    }
+}
+
+#endif
